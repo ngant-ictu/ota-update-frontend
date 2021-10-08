@@ -1,0 +1,28 @@
+
+expose:
+  Annotations:
+    helm.sh/hook: post-install,post-upgrade
+    # helm.sh/hook-delete-policy: hook-succeeded
+  config:
+    exposer: Ingress
+    http: "false"
+    tlsacme: "true"
+    tlsSecretName: tls-iviet-com
+    urltemplate: "{{.Namespace}}.{{.Domain}}"
+
+cleanup:
+  Args:
+    - --cleanup
+  Annotations:
+    helm.sh/hook: pre-delete
+    helm.sh/hook-delete-policy: hook-succeeded
+
+preview:
+  image:
+    repository:
+    tag:
+    pullPolicy: IfNotPresent
+
+  backend:
+    pr: # 7
+    namespace: jx-staging
